@@ -48,29 +48,23 @@ def calcularRiesgo(q1,q2,q3):
 def calculaPosicion():
     data = supabase.table("sessions").select("*").execute()
     return len(data.data) + 1
-    #data = supabase.table("sessions").update({"position": newPosition}).execute()
+    
 
-def insertData():
-    riesgo = calcularRiesgo(q1,q2,q3)
+
+def insertData(numero):
+    riesgo = calcularRiesgo(q1, q2, q3)
     st.write(riesgo)
     posicion = calculaPosicion()
     st.write(posicion)
-    data = supabase.table("sessions").insert({"position":posicion,"risk_level":riesgo,"tel":numero}).execute()
+    data = supabase.table("sessions").insert({"position":posicion, "risk_level":riesgo, "tel":numero}).execute()
     assert len(data.data) > 0
 
-# def ordena_intercambio(totalSessions):
-#     n = len(totalSessions)
-#     for i in range(n - 1):
-#         posicion_min = i
-#         for j in range(i + 1, n):
-#             if totalSessions[j] < totalSessions[posicion_min]:
-#                 posicion_min = j
-
-#         if posicion_min != i:
-#             swap_temporal = totalSessions[i]
-#             totalSessions[i] = totalSessions[posicion_min]
-#             totalSessions[posicion_min] = swap_temporal
 
 if st.button("Chatear",key = "botonUno"):
-    insertData()
-    # ordena_intercambio()
+    insertData(numero)
+    data = supabase.table("sessions").select("*").execute()
+    assert len(data.data) > 0
+    for i in range(len(data.data)):
+        position = data.data[i].get("position")
+        st.write(position)
+    #Supabase configurado para sortear las sesiones por risk_l

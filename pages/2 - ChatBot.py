@@ -45,6 +45,21 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+def create_footer():
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.markdown('---')
+    logo = st.sidebar.image("https://www.pix4code.com/wp-content/uploads/2019/10/inteligencia-artificial-que-es.png", width=40)
+    st.sidebar.write("Ai ; Ally")
+    st.sidebar.write("© 2023 4bit")
+    st.sidebar.write("Jorge Blasquez - Adolfo Hernandez - Fernanda Diaz - Miguel Barrientos")
+
 #-----------------------------------------------------------------------------------------------------
 
 
@@ -86,6 +101,6 @@ if message:
 #else:
 #    st.text("Please enter a mental health-related question.")
 
-
+create_footer()
 
 
