@@ -6,7 +6,28 @@ import time
 
 
 #Estilos de la pagina
-
+def create_footer():
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.markdown('---')
+    logo = st.sidebar.image("https://www.pix4code.com/wp-content/uploads/2019/10/inteligencia-artificial-que-es.png", width=40)
+    st.sidebar.write("Ai ; Ally")
+    st.sidebar.write("© 2023 4bit")
+    st.sidebar.write("Jorge Blasquez - Adolfo Hernandez - Fernanda Diaz - Miguel Barrientos")
 #-------------------------
 
 # SUPABASE create_client + create_user + sign_user
@@ -68,3 +89,5 @@ if st.button("Chatear",key = "botonUno"):
         position = data.data[i].get("position")
         st.write(position)
     #Supabase configurado para sortear las sesiones por risk_l
+
+create_footer()

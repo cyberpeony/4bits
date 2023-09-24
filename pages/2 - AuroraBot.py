@@ -1,6 +1,18 @@
 import streamlit as st
 import openai
 import os
+from supabase import create_client, Client
+import time
+
+
+#Estilos de la pagina
+
+#-------------------------
+
+# SUPABASE create_client
+url: str = st.secrets.supabase.SUPABASE_URL
+key: str = st.secrets.supabase.SUPABASE_KEY
+supabase: Client = create_client(url, key)
 
 #Estilos de la pagina ----------------------------------------------------------
 st.markdown(
@@ -30,7 +42,7 @@ st.markdown('<div class="circle"><img src="https://us.123rf.com/450wm/jemastock/
 
 st.markdown("""
      <div style="background-color: #FFD1DC; padding: 10px 20px; color: #494949; border-radius: 10px;">
-   Texto de prueba 
+   
     </div>
     """, unsafe_allow_html=True)
 
@@ -54,6 +66,14 @@ def create_footer():
     st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
     st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
     st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
+    st.sidebar.write("\n\n\n\n\n\n\n\n\n\n\n\n")
     st.sidebar.markdown('---')
     logo = st.sidebar.image("https://www.pix4code.com/wp-content/uploads/2019/10/inteligencia-artificial-que-es.png", width=40)
     st.sidebar.write("Ai ; Ally")
@@ -64,11 +84,20 @@ def create_footer():
 
 
 #Mental health related keywords:
-mental_health_keywords = ["anxiety", "depression", "stress", "therapy"]
+mental_health_keywords = supabase.table("keywords").select("*").execute()
+# Assert we pulled real data.
+mental_health_keywords_list = []
+for i in range(len(mental_health_keywords.data)):
+    #st.write(mental_health_keywords.data[i].get("keyword"))
+    mental_health_keywords_list.append(mental_health_keywords.data[i].get("keyword"))
+
 
 def is_mental_health_related(input_text):
-    input_text = input_text
-    return any(keyword in input_text for keyword in mental_health_keywords)
+    for word in input_text.split():
+        for keyword in mental_health_keywords_list:
+            if word == keyword:
+                return True
+    return False        
 
 
 openai_api_key = st.secrets.openai.OPENAI_API_KEY   
@@ -79,28 +108,32 @@ messages = [
 ]
 
 message = st.chat_input("¿Cómo te sientes?: ", key="custom-chat-input")
-
-#if is_mental_health_related(message):
+numero = st.text_input("Proporciona tu número de celular")
 
 if message:
-    messages.append(
-        {"role": "user", "content": message}
-    )
+    if is_mental_health_related(message):
+
     
-    chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=messages
-    )
+        data = supabase.table("commits").insert({"tel":numero,"commit":message}).execute()
+        assert len(data.data) > 0
+        messages.append(
+            {"role": "user", "content": message}
+        )
+        
+        chat = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", messages=messages
+        )
 
-    reply = chat.choices[0].message.content
-    #st.write(f"ChatGPT: {reply}")
-    messages.append({"role": "assistant", "content": reply})
+        reply = chat.choices[0].message.content
+        #st.write(f"ChatGPT: {reply}")
+        messages.append({"role": "assistant", "content": reply})
 
-    for message in messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-#else:
-#    st.text("Please enter a mental health-related question.")
-
+        for message in messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+    else:
+        st.text("Please enter a mental health-related question.")
+# numero = st.text_input("Proporciona tu número de celular nuevamente por favor")
 create_footer()
 
 
