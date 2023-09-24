@@ -3,6 +3,13 @@ import openai
 import os
 from supabase import create_client, Client
 
+#Mental health related keywords:
+mental_health_keywords = ["anxiety", "depression", "stress", "therapy"]
+
+def is_mental_health_related(input_text):
+    input_text = input_text.lower()
+    return any(keyword in input_text for keyword in mental_health_keywords)
+
 
 openai_api_key = st.secrets.openai.OPENAI_API_KEY   
 openai.api_key = openai_api_key
