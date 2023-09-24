@@ -2,13 +2,12 @@ import streamlit as st
 import openai
 import os
 
-openai.api_key = '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'
+openai_api_key = st.secrets.openai.OPENAI_API_KEY   
+openai.api_key = openai_api_key
 
 messages = [
     {"role": "system", "content": "You are a kind helpful assistant."},
 ]
-
-
 
 message = st.text_input("User: ")
 
