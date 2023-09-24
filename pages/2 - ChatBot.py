@@ -1,6 +1,8 @@
 import streamlit as st
 import openai
 import os
+from supabase import create_client, Client
+
 
 openai_api_key = st.secrets.openai.OPENAI_API_KEY   
 openai.api_key = openai_api_key
@@ -16,7 +18,6 @@ if message:
         {"role": "user", "content": message}
     )
     
-    # Assuming you have your API key setup and openai properly imported
     chat = openai.ChatCompletion.create(
         model="gpt-3.5-turbo", messages=messages
     )
@@ -26,15 +27,26 @@ if message:
     messages.append({"role": "assistant", "content": reply})
 
 
-# Load OpenAI API key from secrets
-#OPENAI_API_KEY = "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"#st.secrets["my_secret"]["OPENAI_API_KEY"]
+st.title("AuroraBot")
 
-# Set OpenAI API key
-#openai.api_key = "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"#st.secrets["my_secret"]["OPENAI_API_KEY"]
+# Initialize connection.
+# Uses st.cache_resource to only run once.
+@st.cache_resource
+def init_connection():
+    url = st.secrets.supabase.SUPABASE_URL
+    key = st.secrets.supabase.SUPABASE_KEY
+    return create_client(url, key)
 
-# ... Rest of your Streamlit app code ...
+supabase = init_connection()
 
-st.title("ChatGPT-like clone")
+# Perform query.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def run_query():
+    return supabase.table("mytable").select("*").execute()
 
-# Set OpenAI API key from Streamlit secrets
-#openai.api_key = st.secrets["OPENAI_API_KEY"]
+rows = run_query()
+
+# Print results.
+for row in rows.data:
+    st.write(f"{row['name']} has a :{row['pet']}:")
