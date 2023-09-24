@@ -111,28 +111,28 @@ message = st.chat_input("¿Cómo te sientes?: ", key="custom-chat-input")
 numero = st.text_input("Proporciona tu número de celular")
 
 if message:
-    if is_mental_health_related(message):
+    #if is_mental_health_related(message):
 
+
+    data = supabase.table("commits").insert({"tel":numero,"commit":message}).execute()
+    assert len(data.data) > 0
+    messages.append(
+        {"role": "user", "content": message}
+    )
     
-        data = supabase.table("commits").insert({"tel":numero,"commit":message}).execute()
-        assert len(data.data) > 0
-        messages.append(
-            {"role": "user", "content": message}
-        )
-        
-        chat = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", messages=messages
-        )
+    chat = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=messages
+    )
 
-        reply = chat.choices[0].message.content
-        #st.write(f"ChatGPT: {reply}")
-        messages.append({"role": "assistant", "content": reply})
+    reply = chat.choices[0].message.content
+    #st.write(f"ChatGPT: {reply}")
+    messages.append({"role": "assistant", "content": reply})
 
-        for message in messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-    else:
-        st.text("Please enter a mental health-related question.")
+    for message in messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+    #else:
+    #    st.text("Please enter a mental health-related question.")
 # numero = st.text_input("Proporciona tu número de celular nuevamente por favor")
 create_footer()
 
