@@ -14,7 +14,8 @@ Software utilizado
 - Implementación de IA utilizando key del modelo ChatGPT-3.5
 - Utilización de base de datos de Supabase
 - Base de datos de keywords que limitan las preguntas a AuroraBot
-- Acceso a la plataforma proporcionando un número telefónico. Est
+- Acceso a la plataforma proporcionando un número telefónico. El algoritmo evalua el riesgo y Supabase ordena las sesiones de acuerdo al nivel de riesgo.
+- Utilización de Github y Codespaces in Visual Studio Code
 
 Desarrollo 
 Con esto, tomando como punto de partida el enfoque de uno de los retos del HackMTY decidimos alinear nuestro proyecto a desarrollar una inteligencia artificial que atienda en primera instancia a la persona en busca de ayuda urgente.
